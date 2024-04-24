@@ -4,11 +4,8 @@
  */
 package sample;
 
-/**
- *
- * @author Udisha
- */
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,21 +13,25 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
-public class browse_pets extends javax.swing.JFrame {
+/**
+ *
+ * @author Udisha
+ */
+public class view_adoptions extends javax.swing.JFrame {
 
     /**
-     * Creates new form browse_pets
+     * Creates new form view_adoptions
      */
     private Connection conn;
     private Statement stmt;
     private ResultSet rs;
     private DatabaseUtil dbUtil;
     
-    public browse_pets() {
+    public view_adoptions() {
         initComponents();
         setupDatabaseConnection();
-        fetchAllAnimals();
-        displayNextAnimal(); 
+        fetchAllAdoptions();
+        displayNextAdoption(); 
     }
 
     private void setupDatabaseConnection() {
@@ -45,7 +46,6 @@ public class browse_pets extends javax.swing.JFrame {
         }
     }
     
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -125,19 +125,19 @@ public class browse_pets extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Futura Bk BT", 0, 12)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Species");
+        jLabel8.setText("Adopter Name");
 
         jLabel9.setFont(new java.awt.Font("Futura Bk BT", 0, 12)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Age");
+        jLabel9.setText("Mobile Number");
 
         jLabel10.setFont(new java.awt.Font("Futura Bk BT", 0, 12)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("Color");
+        jLabel10.setText("Adoption ID");
 
         jLabel11.setFont(new java.awt.Font("Futura Bk BT", 0, 12)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Vaccination Status");
+        jLabel11.setText("Adoption Date");
 
         jButton1.setText("Previous");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -157,7 +157,7 @@ public class browse_pets extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 822, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -177,7 +177,7 @@ public class browse_pets extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(183, 183, 183)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,11 +214,11 @@ public class browse_pets extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(jLabel6))
-                .addGap(55, 55, 55)
+                .addGap(65, 65, 65)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
                 .addComponent(jButton4)
                 .addGap(22, 22, 22))
         );
@@ -237,69 +237,9 @@ public class browse_pets extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private ResultSet resultSet;
-
-    private void fetchAllAnimals() {
-        try {
-            String query = "SELECT * FROM animal where availability_status = 1";
-            PreparedStatement pst = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-
-            resultSet = pst.executeQuery();
-        } catch (SQLException e) {
-            System.out.println("Error fetching animals: " + e.getMessage());
-            JOptionPane.showMessageDialog(this, "Error fetching animals: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void displayNextAnimal() {
-        try {
-            if (resultSet.next()) {
-                jLabel2.setText(resultSet.getString("name"));
-                jLabel3.setText(resultSet.getString("species"));
-                jLabel4.setText(String.valueOf(resultSet.getInt("age")));
-                jLabel5.setText(resultSet.getString("color"));
-
-                boolean vaccinationStatus = resultSet.getBoolean("vaccination_status");
-                if (vaccinationStatus) {
-                    jLabel6.setText("Vaccinated");
-                } else {
-                    jLabel6.setText("Not Vaccinated");
-                }
-            }else {
-                JOptionPane.showMessageDialog(this, "No more animals.", "End of List", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error displaying next animal: " + e.getMessage());
-            JOptionPane.showMessageDialog(this, "Error displaying next animal: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void displayPreviousAnimal() {
-        try {
-            if (resultSet.previous()) {
-                jLabel2.setText(resultSet.getString("name"));
-                jLabel3.setText(resultSet.getString("species"));
-                jLabel4.setText(String.valueOf(resultSet.getInt("age")));
-                jLabel5.setText(resultSet.getString("color"));
-
-                boolean vaccinationStatus = resultSet.getBoolean("vaccination_status");
-                if (vaccinationStatus) {
-                    jLabel6.setText("Vaccinated");
-                } else {
-                    jLabel6.setText("Not Vaccinated");
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "You are already at the beginning of the list.", "Beginning of List", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error displaying previous animal: " + e.getMessage());
-            JOptionPane.showMessageDialog(this, "Error displaying previous animal: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        home adminInterface = new home();
+        admin adminInterface = new admin();
         adminInterface.setVisible(true);
         adminInterface.pack();
         adminInterface.setLocationRelativeTo(null);
@@ -308,14 +248,74 @@ public class browse_pets extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        displayPreviousAnimal();
+        displayPreviousAdoption();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
         // TODO add your handling code here:
-         displayNextAnimal();
+        displayNextAdoption();
     }//GEN-LAST:event_jButton2ActionPerformed
+    private ResultSet adoptionResultSet;
+
+    private void fetchAllAdoptions() {
+        try {
+            String query = "SELECT adoption_id, adoption_date, animal.animal_id, animal.name, adopter.aname, adopter.mobno " +
+                            "FROM adoption " +
+                            "JOIN animal ON adoption.animalid = animal.animal_id " +
+                            "JOIN adopter ON adoption.adopterid = adopter.adopter_id";
+            PreparedStatement pst = conn.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            adoptionResultSet = pst.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("Error fetching adoptions: " + e.getMessage());
+        }
+    }
+
+    private void displayNextAdoption() {
+        try {
+            if (adoptionResultSet.next()) {
+                int adoptionId = adoptionResultSet.getInt("adoption_id");
+                Date adoptionDate = adoptionResultSet.getDate("adoption_date");
+                int animalId = adoptionResultSet.getInt("animal_id");
+                String animalName = adoptionResultSet.getString("name");
+                String adopterName = adoptionResultSet.getString("aname");
+                String adopterMobile = adoptionResultSet.getString("mobno");
+
+                jLabel5.setText("" + adoptionId);
+                jLabel6.setText("" + adoptionDate);
+                jLabel2.setText(animalName);
+                jLabel3.setText(adopterName);
+                jLabel4.setText(adopterMobile);
+            } else {
+                JOptionPane.showMessageDialog(this, "No more adoptions to display.", "End of List", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error displaying adoption: " + e.getMessage());
+        }
+    }
+
+    private void displayPreviousAdoption() {
+        try {
+            if (adoptionResultSet.previous()) {
+                int adoptionId = adoptionResultSet.getInt("adoption_id");
+                Date adoptionDate = adoptionResultSet.getDate("adoption_date");
+                int animalId = adoptionResultSet.getInt("animal_id");
+                String animalName = adoptionResultSet.getString("name");
+                String adopterName = adoptionResultSet.getString("aname");
+                String adopterMobile = adoptionResultSet.getString("mobno");
+
+                jLabel5.setText("Adoption ID: " + adoptionId);
+                jLabel6.setText("Adoption Date: " + adoptionDate);
+                jLabel2.setText("Animal Name: " + animalName);
+                jLabel3.setText("Adopter Name: " + adopterName);
+                jLabel4.setText("Adopter Mobile: " + adopterMobile);
+            } else {
+                JOptionPane.showMessageDialog(this, "No previous adoptions to display.", "Beginning of List", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error displaying adoption: " + e.getMessage());
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -334,20 +334,20 @@ public class browse_pets extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(browse_pets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(view_adoptions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(browse_pets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(view_adoptions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(browse_pets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(view_adoptions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(browse_pets.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(view_adoptions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new browse_pets().setVisible(true);
+                new view_adoptions().setVisible(true);
             }
         });
     }

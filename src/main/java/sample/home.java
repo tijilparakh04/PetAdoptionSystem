@@ -57,7 +57,7 @@ public class home extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
         setPreferredSize(new java.awt.Dimension(830, 550));
-        setSize(new java.awt.Dimension(800, 500));
+        setSize(new java.awt.Dimension(830, 550));
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
@@ -100,16 +100,30 @@ public class home extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jButton2.setBackground(new java.awt.Color(255, 255, 204));
+        jButton2.setFont(new java.awt.Font("Futura Bk BT", 1, 18)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Udisha\\Downloads\\transparent-cartoon-cat-cartoon-cat-curiously-holds-magnifying-glass65a7a2f42898b4.9208663617054850441663-removebg-preview (1).png")); // NOI18N
         jButton2.setText("Browse Pets");
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setMaximumSize(new java.awt.Dimension(390, 423));
         jButton2.setPreferredSize(new java.awt.Dimension(390, 423));
+        jButton2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
+        jButton3.setBackground(new java.awt.Color(255, 255, 204));
+        jButton3.setFont(new java.awt.Font("Futura Bk BT", 1, 18)); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Udisha\\Downloads\\pngwing.com.png")); // NOI18N
         jButton3.setText("Adopt a Pet");
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setMaximumSize(new java.awt.Dimension(390, 423));
         jButton3.setPreferredSize(new java.awt.Dimension(390, 423));
+        jButton3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -136,7 +150,7 @@ public class home extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap(12, Short.MAX_VALUE))
+                        .addContainerGap(11, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -170,6 +184,11 @@ public class home extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        adopt_pet ap = new adopt_pet();
+        ap.setVisible(true);
+        ap.pack();
+        ap.setLocationRelativeTo(null);
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
