@@ -3,8 +3,9 @@ package sample;
 import java.sql.*;
 import java.util.*;
 import javax.swing.JOptionPane;
+import sample.DatabaseUtil;
 
-public class signup extends javax.swing.JFrame {
+public class signup extends javax.swing.JFrame implements Connect {
     private Statement stmt;
     private Connection conn;
     private ResultSet rs;
@@ -14,7 +15,7 @@ public class signup extends javax.swing.JFrame {
         initComponents();
         setupDatabaseConnection();
     }
-    private void setupDatabaseConnection() {
+    public void setupDatabaseConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pet_project", "root", "yoyoyo1483");

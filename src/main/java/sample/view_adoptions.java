@@ -12,12 +12,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import sample.DatabaseUtil;
 
 /**
  *
  * @author Udisha
  */
-public class view_adoptions extends javax.swing.JFrame {
+public class view_adoptions extends javax.swing.JFrame implements Connect{
 
     /**
      * Creates new form view_adoptions
@@ -34,7 +35,7 @@ public class view_adoptions extends javax.swing.JFrame {
         displayNextAdoption(); 
     }
 
-    private void setupDatabaseConnection() {
+    public void setupDatabaseConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pet_project", "root", "yoyoyo1483");

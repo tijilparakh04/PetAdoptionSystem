@@ -9,12 +9,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import sample.DatabaseUtil;
 
 /**
  *
  * @author Udisha
  */
-public class add_medical extends javax.swing.JFrame {
+public class add_medical extends javax.swing.JFrame implements Connect{
 
     /**
      * Creates new form add_medical
@@ -29,7 +30,7 @@ public class add_medical extends javax.swing.JFrame {
         setupDatabaseConnection();
     }
 
-    private void setupDatabaseConnection() {
+    public void setupDatabaseConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pet_project", "root", "yoyoyo1483");
@@ -407,7 +408,7 @@ public class add_medical extends javax.swing.JFrame {
             if (!rs.isBeforeFirst()) {
                 throw new AnimalNotFoundException("Animal with ID " + animalId + " does not exist.");
             } else {
-                String insertQuery = "INSERT INTO medical_record (animal_id, medical_condition, pills_taken) VALUES (" + animalId + ", '" + medicalCondition + "', '" + pillsTaken + "')";
+                String insertQuery = "INSERT INTO medical_record (animalid, medical_condition, pills_taking) VALUES (" + animalId + ", '" + medicalCondition + "', '" + pillsTaken + "')";
                 int rowsAffected = stmt.executeUpdate(insertQuery);
 
                 if (rowsAffected > 0) {

@@ -11,12 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
-
+import sample.DatabaseUtil;
 /**
  *
  * @author Udisha
  */
-public class adoption extends javax.swing.JFrame {
+
+public class adoption extends javax.swing.JFrame implements Connect {
 
     /**
      * Creates new form adoption
@@ -28,13 +29,20 @@ public class adoption extends javax.swing.JFrame {
         this.currentAnimalID = currentAnimalID;
         setupDatabaseConnection();
     }
+    
+    public adoption() {
+        initComponents();
+        setupDatabaseConnection();
+
+    }
+    
     private Connection conn;
     private Statement stmt;
     private ResultSet rs;
     private DatabaseUtil dbUtil;
    
 
-    private void setupDatabaseConnection() {
+    public void setupDatabaseConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pet_project", "root", "yoyoyo1483");

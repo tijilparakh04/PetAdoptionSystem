@@ -10,12 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import sample.DatabaseUtil;
+
 
 /**
  *
  * @author Udisha
  */
-public class update_pet extends javax.swing.JFrame {
+public class update_pet extends javax.swing.JFrame implements Connect{
 
     /**
      * Creates new form update_pet
@@ -30,7 +32,7 @@ public class update_pet extends javax.swing.JFrame {
         setupDatabaseConnection();
     }
 
-    private void setupDatabaseConnection() {
+    public void setupDatabaseConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pet_project", "root", "yoyoyo1483");
@@ -422,7 +424,7 @@ public class update_pet extends javax.swing.JFrame {
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String animalIdStr = jTextField2.getText().trim();
-        String petName = jTextField1.getText().trim();
+        String petName = jTextField3.getText().trim();
         String species = jTextField4.getText().trim();
         String ageStr = jTextField5.getText().trim();
         String color = jTextField6.getText().trim();

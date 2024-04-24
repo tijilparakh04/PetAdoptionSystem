@@ -12,8 +12,9 @@ package sample;
 import java.sql.*;
 import java.util.*;
 import javax.swing.JOptionPane;
+import sample.DatabaseUtil;
 
-public class login extends javax.swing.JFrame {
+public class login extends javax.swing.JFrame implements Connect{
 
     /**
      * Creates new form login
@@ -23,10 +24,22 @@ public class login extends javax.swing.JFrame {
     private ResultSet rs;
     private DatabaseUtil dbUtil;
 
-   
+    public void setupDatabaseConnection() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pet_project", "root", "yoyoyo1483");
+            stmt = conn.createStatement();
+            System.out.println("Connected successfully");
+        } catch (Exception e) {
+            System.out.println("Error connecting to the database: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error connecting to the database: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     public login() {
         initComponents();
         dbUtil = new DatabaseUtil();
+        setupDatabaseConnection();
     }
 
     @SuppressWarnings("unchecked")
@@ -227,8 +240,6 @@ public class login extends javax.swing.JFrame {
             String u = tf.getText();
             String p = new String(pf.getPassword());
             String query = "SELECT * FROM user WHERE username = '" + u + "'";
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pet_project", "root", "yoyoyo1483");
-            Statement stmt = conn.createStatement();
             rs = stmt.executeQuery(query);
             if (rs.next()) {
                 if (p.equals(rs.getString("password"))) {

@@ -6,12 +6,13 @@ package sample;
 
 import java.sql.*;
 import javax.swing.JOptionPane;
+import sample.DatabaseUtil;
 
 /**
  *
  * @author Udisha
  */
-public class add_pet extends javax.swing.JFrame {
+public class add_pet extends javax.swing.JFrame implements Connect {
 
     private Connection conn;
     private Statement stmt;
@@ -23,7 +24,7 @@ public class add_pet extends javax.swing.JFrame {
         setupDatabaseConnection();
     }
 
-    private void setupDatabaseConnection() {
+    public void setupDatabaseConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pet_project", "root", "yoyoyo1483");

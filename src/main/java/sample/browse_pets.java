@@ -15,8 +15,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import sample.DatabaseUtil;
 
-public class browse_pets extends javax.swing.JFrame {
+
+public class browse_pets extends javax.swing.JFrame implements Connect{
 
     /**
      * Creates new form browse_pets
@@ -33,7 +35,7 @@ public class browse_pets extends javax.swing.JFrame {
         displayNextAnimal(); 
     }
 
-    private void setupDatabaseConnection() {
+    public void setupDatabaseConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pet_project", "root", "yoyoyo1483");

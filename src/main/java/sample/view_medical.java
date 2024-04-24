@@ -9,12 +9,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import sample.DatabaseUtil;
 
 /**
  *
  * @author Udisha
  */
-public class view_medical extends javax.swing.JFrame {
+public class view_medical extends javax.swing.JFrame implements Connect {
 
     /**
      * Creates new form view_medical
@@ -29,7 +30,7 @@ public class view_medical extends javax.swing.JFrame {
         setupDatabaseConnection();
     }
 
-    private void setupDatabaseConnection() {
+    public void setupDatabaseConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pet_project", "root", "yoyoyo1483");
@@ -281,12 +282,12 @@ public class view_medical extends javax.swing.JFrame {
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String animalIdStr = jTextField2.getText().trim();
+        String animalIdStr = jTextField3.getText().trim();
 
         try {
             int animalId = Integer.parseInt(animalIdStr);
 
-            String query = "SELECT * FROM medical_record WHERE animal_id = " + animalId;
+            String query = "SELECT * FROM medical_record WHERE animalid = " + animalId;
             rs = stmt.executeQuery(query);
 
             if (!rs.isBeforeFirst()) {
@@ -294,20 +295,17 @@ public class view_medical extends javax.swing.JFrame {
             } else {
                 StringBuilder medicalinfo = new StringBuilder();
                 while (rs.next()) {
-                    // Retrieve pet information from the result set
                     int recordid = rs.getInt("recordID");
                     String medical_condition = rs.getString("medical_condition");
-                    int animalid = rs.getInt("animal_id");
+                    int animalid = rs.getInt("animalid");
                     String pills = rs.getString("pills_taking");
 
-                    // Append pet information to the StringBuilder
                     medicalinfo.append("Record ID: ").append(recordid).append("\n")
                     .append("Animal ID: ").append(animalid).append("\n")
                     .append("Medical Condition: ").append(medical_condition).append("\n")
                   
                     .append("Pills being taken: ").append(pills).append("\n\n");
                 }
-                // Display all pet information using JOptionPane
                 JOptionPane.showMessageDialog(this, medicalinfo.toString(), "Medical Information", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (NumberFormatException e) {
@@ -316,7 +314,7 @@ public class view_medical extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Animal Not Found", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             System.out.println("Error fetching medical info: " + e.getMessage());
-            JOptionPane.showMessageDialog(this, "Error fetchig mediclal info: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error fetching medical info: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
             
     }//GEN-LAST:event_jButton1ActionPerformed

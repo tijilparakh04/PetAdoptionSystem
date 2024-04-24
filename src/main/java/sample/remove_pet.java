@@ -7,10 +7,13 @@ package sample;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import sample.DatabaseUtil;
 
-public class remove_pet extends javax.swing.JFrame {
+
+public class remove_pet extends javax.swing.JFrame implements Connect {
 
     /**
      * Creates new form remove_pet
@@ -25,7 +28,7 @@ public class remove_pet extends javax.swing.JFrame {
         setupDatabaseConnection();
     }
 
-    private void setupDatabaseConnection() {
+    public void setupDatabaseConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pet_project", "root", "yoyoyo1483");
@@ -289,27 +292,39 @@ public class remove_pet extends javax.swing.JFrame {
             if (!rs.isBeforeFirst()) {
                 throw new remove_pet.AnimalNotFoundException("Animal with ID " + animalId + " does not exist.");
             } else {
-                String deletequery = "DELETE FROM ANIMAL where ANIMAL_ID = " + animalId;
-                String deletequery1 = "DELETE FROM medical_record where ANIMALID = " + animalId;
+                boolean availabilityStatus = false;
+                if (rs.next()) {
+                    availabilityStatus = rs.getBoolean("availability_status");
+                }
 
-                int rowsAffected = stmt.executeUpdate(deletequery);
-                stmt.executeQuery(deletequery1);
-                if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(this, "Animal removed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    jTextField2.setText("");
-                 
+                if (!availabilityStatus) {
+                    JOptionPane.showMessageDialog(this, "This pet has already been adopted and cannot be removed.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(this, "Failed to remove animal.", "Error", JOptionPane.ERROR_MESSAGE);
+                    String deletequery = "DELETE FROM animal WHERE animal_id = " + animalId;
+                    String deletequery1 = "DELETE FROM medical_record WHERE ANIMALID = " + animalId;
+                    int rowsAffectedMedical = stmt.executeUpdate(deletequery1);
+                    int rowsAffected = stmt.executeUpdate(deletequery);
+
+                    if (rowsAffected > 0) {
+                        JOptionPane.showMessageDialog(this, "Animal removed successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        jTextField2.setText("");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to remove animal.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Invalid animal ID. Please enter a valid integer.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
         } catch (remove_pet.AnimalNotFoundException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Animal Not Found", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException e) {
+            System.out.println("Error removing pet: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error removing pet: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             System.out.println("Error removing pet: " + e.getMessage());
             JOptionPane.showMessageDialog(this, "Error removing pet: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
